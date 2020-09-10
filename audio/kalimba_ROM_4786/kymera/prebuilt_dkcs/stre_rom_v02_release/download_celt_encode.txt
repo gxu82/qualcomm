@@ -1,0 +1,3 @@
+Download Capability BUILD ID = 6805
+ELF File ID = 0x70358033
+Base Build ID = 6789

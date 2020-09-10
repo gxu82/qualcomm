@@ -1,0 +1,8 @@
+file=bt2
+
+# Change bluetooth address and device name to appropriate values
+# using variable markers from the template.xml file.
+pskey_bdaddr={0x000009,0x7C,0x001E}
+pskey_device_name="Razor XV 3.0"
+
+PSKEY_LC_MAX_TX_POWER = 8

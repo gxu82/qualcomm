@@ -1,0 +1,15 @@
+---- EventUsrEnterPairing Matches (14 in 5 files) ----
+handleUEMessage in main.c (apps\applications\sink) :         case (EventUsrEnterPairing):
+handleUEMessage in main.c (apps\applications\sink) : 						AudioPromptPlayEvent(EventUsrEnterPairing,1);//add by lwy 20191219
+handleUEMessage in main.c (apps\applications\sink) :                 MessageSend(&theSink.task, EventUsrEnterPairing, 0);//add by lwy
+handleUEMessage in main.c (apps\applications\sink) :             MessageCancelAll(&theSink.task , EventUsrEnterPairing); /* add by lwy  20191028*/
+sinkEventsTag in sink_events.h (apps\applications\sink) : /*0x4003*/    EventUsrEnterPairing,
+gaia_handle_control_command in sink_gaia.c (apps\applications\sink) :             send_app_message(EventUsrEnterPairing);
+sinkHandleSlcDisconnectInd in sink_slc.c (apps\applications\sink) :                     MessageCancelAll(&theSink.task, EventUsrEnterPairing);//20191028
+slcContinueEstablishSLCRequest in sink_slc.c (apps\applications\sink) :                 //MessageSend(&theSink.task, EventUsrEnterPairing, 0);
+sportHealthSMDeviceStateChanged in sink_sport_health_sm.c (apps\applications\sink) :                     MessageSend(&theSink.task, EventUsrEnterPairing, NULL);
+sportHealthSMDeviceStateChanged in sink_sport_health_sm.c (apps\applications\sink) :                 MessageSend(&theSink.task, EventUsrEnterPairing, NULL);
+sportHealthSMDeviceStateChanged in sink_sport_health_sm.c (apps\applications\sink) :                MessageSend(&theSink.task, EventUsrEnterPairing, NULL);
+sinkSportHealthSMDeviceStateCheck in sink_sport_health_sm.c (apps\applications\sink) :                 MessageCancelAll(&theSink.task, EventUsrEnterPairing);
+sinkSportHealthSMDeviceStateCheck in sink_sport_health_sm.c (apps\applications\sink) :                 MessageSend(&theSink.task, EventUsrEnterPairing, NULL);
+sinkSportHealthSMDeviceStateCheck in sink_sport_health_sm.c (apps\applications\sink) :         case EventUsrEnterPairing:

@@ -1,0 +1,1808 @@
+
+/home/svc-audio-dspsw/kymera_builds/builds/2019/kymera_1903271828/kalimba/kymera/tools/KCSMaker/out/4786/stre_rom_v02_release/download/debugbin/download_va_graph_manager.elf:     file format elf32-littlekalimba
+
+Disassembly of section .text_minim:
+
+84200000 <Lc_vagm_init_1>:
+ * \brief Initialize the capability specific data.
+ *
+ * \param op_data Pointer to the operator instance data.
+ */
+static void vagm_init(OPERATOR_DATA *op_data)
+{
+84200000:	c8 1c       	pushm <FP(=SP), rLink>;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+84200002:	02 f0 23 ee 	call (m) $_base_op_get_instance_data;
+ */
+static void vagm_init(OPERATOR_DATA *op_data)
+{
+    VAGM_OP_DATA * ext_data = get_instance_data(op_data);
+    /* (By default 32MHz is supported) */
+    ext_data->graph_load = OPMSG_VA_GM_LOAD_LOW;
+84200006:	c1 20       	rMAC = Null + 3;
+84200008:	11 aa       	MB[r0 + 16] = rMAC;
+    ext_data->wait_for_qva = FALSE;
+8420000a:	90 8f       	M[r0 + 24] = Null;
+    ext_data->wait_for_vad = FALSE;
+8420000c:	50 8f       	M[r0 + 20] = Null;
+    ext_data->aov_operation = NO_OPERATION;
+8420000e:	20 f0 20 8a 	MB[r0 + 32] = Null;
+    ext_data->splitter_deactivate_to_buffer = FALSE;
+84200012:	d0 8f       	M[r0 + 28] = Null;
+    ext_data->voice_activity = FALSE;
+84200014:	50 9e       	M[r0 + 36] = Null;
+    ext_data->lp_active = FALSE;
+84200016:	90 9e       	M[r0 + 40] = Null;
+#ifdef GM_SENDS_COMMANDS
+    ext_data->issued_cmd = COMMAND_NONE;
+#endif
+    ext_data->buffer_time_offset_ms = BUFFER_TIME_OFFSET_MS;
+84200018:	01 f0 c8 40 	rMAC = Null + 200;
+8420001c:	d1 9e       	M[r0 + 44] = rMAC;
+
+8420001e <Lc_vagm_init_2>:
+}
+8420001e:	c8 48       	popm <FP, rLink>;
+84200020:	d8 4c       	rts;
+
+84200022 <Lc_vagm_process_data_1>:
+84200022:	d8 4c       	rts;
+
+84200024 <Lc_vagm_connect_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_connect(OPERATOR_DATA *op_data, void *message_data, unsigned *response_id, void **response_data)
+{
+84200024:	c8 1c       	pushm <FP(=SP), rLink>;
+84200026:	2c 00       	r2 = r3 + Null;
+    return base_op_build_std_response_ex(op_data, STATUS_CMD_FAILED, response_data);
+84200028:	03 f0 00 60 	r1 = Null + 4096;
+8420002c:	02 f0 2d eb 	call (m) $_base_op_build_std_response_ex;
+
+84200030 <Lc_vagm_connect_2>:
+}
+84200030:	c8 48       	popm <FP, rLink>;
+84200032:	d8 4c       	rts;
+
+84200034 <Lc_vagm_disconnect_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_disconnect(OPERATOR_DATA *op_data, void *message_data, unsigned *response_id, void **response_data)
+{
+84200034:	c8 1c       	pushm <FP(=SP), rLink>;
+84200036:	2c 00       	r2 = r3 + Null;
+    return base_op_build_std_response_ex(op_data, STATUS_CMD_FAILED, response_data);
+84200038:	03 f0 00 60 	r1 = Null + 4096;
+8420003c:	02 f0 3d ea 	call (m) $_base_op_build_std_response_ex;
+
+84200040 <Lc_vagm_disconnect_2>:
+}
+84200040:	c8 48       	popm <FP, rLink>;
+84200042:	d8 4c       	rts;
+
+84200044 <Lc_vagm_buffer_details_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_buffer_details(OPERATOR_DATA *op_data, void *message_data, unsigned *response_id, void **response_data)
+{
+84200044:	c8 1c       	pushm <FP(=SP), rLink>;
+    bool result = base_op_buffer_details(op_data, message_data, response_id, response_data);
+84200046:	ff fd 00 f0 	call (m) 0xbe;
+8420004a:	39 e3 
+
+8420004c <Lc_vagm_buffer_details_2>:
+
+    return result;
+8420004c:	c8 48       	popm <FP, rLink>;
+8420004e:	d8 4c       	rts;
+
+84200050 <Lc_vagm_get_sched_info_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_get_sched_info(OPERATOR_DATA *op_data, void *message_data, unsigned *response_id, void **response_data)
+{
+84200050:	f2 1c       	pushm <FP(=SP), r4, r5, rLink>;
+84200052:	17 00       	r5 = r0 + Null;
+84200054:	2e 00       	r4 = r3 + Null;
+    OP_SCHED_INFO_RSP* resp;
+
+    resp = base_op_get_sched_info_ex(op_data, message_data, response_id);
+84200056:	02 f0 23 e9 	call (m) $_base_op_get_sched_info_ex;
+    if (resp == NULL)
+8420005a:	10 04       	Null = r0 - Null;
+8420005c:	08 62       	if NE jump (m) Lc_vagm_get_sched_info_3;
+
+8420005e <Lc_vagm_get_sched_info_2>:
+    {
+        return base_op_build_std_response_ex(op_data, STATUS_CMD_FAILED, response_data);
+8420005e:	03 f0 00 60 	r1 = Null + 4096;
+84200062:	34 00       	r2 = r4 + Null;
+84200064:	3a 00       	r0 = r5 + Null;
+84200066:	02 f0 33 e9 	call (m) $_base_op_build_std_response_ex;
+8420006a:	05 6e       	jump (m) Lc_vagm_get_sched_info_4;
+
+8420006c <Lc_vagm_get_sched_info_3>:
+    }
+    *response_data = resp;
+8420006c:	32 ee       	M[r4 + Null] = r0;
+
+    resp->block_size = 1;
+8420006e:	41 20       	rMAC = Null + 1;
+84200070:	91 8e       	M[r0 + 8] = rMAC;
+
+    return TRUE;
+84200072:	0a 00       	r0 = rMAC + Null;
+
+84200074 <Lc_vagm_get_sched_info_4>:
+}
+84200074:	f2 48       	popm <FP, r4, r5, rLink>;
+84200076:	d8 4c       	rts;
+
+84200078 <Lc_vagm_get_data_format_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_get_data_format(OPERATOR_DATA *op_data, void *message_data, unsigned *response_id, void **response_data)
+{
+84200078:	c8 1c       	pushm <FP(=SP), rLink>;
+8420007a:	2c 00       	r2 = r3 + Null;
+    return base_op_build_std_response_ex(op_data, STATUS_CMD_FAILED, response_data);
+8420007c:	03 f0 00 60 	r1 = Null + 4096;
+84200080:	02 f0 39 e8 	call (m) $_base_op_build_std_response_ex;
+
+84200084 <Lc_vagm_get_data_format_2>:
+}
+84200084:	c8 48       	popm <FP, rLink>;
+84200086:	d8 4c       	rts;
+
+84200088 <Lc_vagm_message_response_handler_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_message_response_handler(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+84200088:	f3 1c       	pushm <FP(=SP), r4, r5, r6, rLink>;
+8420008a:	10 09       	r6 = r0 + Null;
+8420008c:	1f 00       	r5 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+8420008e:	02 f0 37 e9 	call (m) $_base_op_get_instance_data;
+84200092:	16 00       	r4 = r0 + Null;
+ * response
+ */
+static bool vagm_message_response_handler(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+    OPERATOR_ID src_op_id = OPMSG_FIELD_GET(message_data, OPMSG_OP_CLIENT_MESSAGE_RESPONSE, SOURCE_OP_ID);
+84200094:	f9 88       	rMAC = M[r5 + 12];
+84200096:	8b c6       	r1 = rMAC AND 0xffff;
+    STATUS_KYMERA status = (STATUS_KYMERA) OPMSG_FIELD_GET(message_data, OPMSG_OP_CLIENT_MESSAGE_RESPONSE, STATUS);
+84200098:	39 89       	rMAC = M[r5 + 16];
+
+    if (status == STATUS_OK && src_op_id != 0)
+8420009a:	09 0c       	rMAC = SE16 rMAC;
+8420009c:	3a 62       	if NE jump (m) Lc_vagm_message_response_handler_13;
+
+8420009e <Lc_vagm_message_response_handler_2>:
+8420009e:	18 04       	Null = r1 - Null;
+842000a0:	38 60       	if EQ jump (m) Lc_vagm_message_response_handler_13;
+
+842000a2 <Lc_vagm_message_response_handler_3>:
+    {
+        if (src_op_id == ext_data->vad_op_id)
+842000a2:	6f f3 80 c2 	Null = r1 - M[r4];
+842000a6:	09 62       	if NE jump (m) Lc_vagm_message_response_handler_5;
+
+842000a8 <Lc_vagm_message_response_handler_4>:
+        {
+            L2_DBG_MSG("VA_GM: response from VAD");
+842000a8:	55 f1 02 f0 	r0 = Null + 357564672;
+842000ac:	00 41 
+842000ae:	ff fd 04 f0 	call (m) 0x9a2;
+842000b2:	35 e7 
+            ext_data->wait_for_vad = FALSE;
+842000b4:	70 8f       	M[r4 + 20] = Null;
+842000b6:	32 6e       	jump (m) Lc_vagm_message_response_handler_14;
+
+842000b8 <Lc_vagm_message_response_handler_5>:
+        }
+        else if (src_op_id == ext_data->qva_op_id)
+842000b8:	71 88       	rMAC = M[r4 + 4];
+842000ba:	58 04       	Null = r1 - rMAC;
+842000bc:	09 62       	if NE jump (m) Lc_vagm_message_response_handler_7;
+
+842000be <Lc_vagm_message_response_handler_6>:
+        {
+            L2_DBG_MSG("VA_GM: response from QVA");
+842000be:	55 f1 02 f0 	r0 = Null + 357564697;
+842000c2:	19 41 
+842000c4:	ff fd 04 f0 	call (m) 0x9a2;
+842000c8:	3f e6 
+            ext_data->wait_for_qva = FALSE;
+842000ca:	b0 8f       	M[r4 + 24] = Null;
+842000cc:	27 6e       	jump (m) Lc_vagm_message_response_handler_14;
+
+842000ce <Lc_vagm_message_response_handler_7>:
+        }
+        else if (src_op_id == ext_data->cvc_op_id)
+842000ce:	b1 88       	rMAC = M[r4 + 8];
+842000d0:	58 04       	Null = r1 - rMAC;
+842000d2:	08 62       	if NE jump (m) Lc_vagm_message_response_handler_9;
+
+842000d4 <Lc_vagm_message_response_handler_8>:
+        {
+            L2_DBG_MSG("VA_GM: response from CVC");
+842000d4:	55 f1 02 f0 	r0 = Null + 357564722;
+842000d8:	32 41 
+842000da:	ff fd 04 f0 	call (m) 0x9a2;
+842000de:	29 e6 
+842000e0:	1d 6e       	jump (m) Lc_vagm_message_response_handler_14;
+
+842000e2 <Lc_vagm_message_response_handler_9>:
+            /* We don't need to wait for CVC response. */
+        }
+        else if (src_op_id == ext_data->splitter_op_id)
+842000e2:	f1 88       	rMAC = M[r4 + 12];
+842000e4:	58 04       	Null = r1 - rMAC;
+842000e6:	0f 62       	if NE jump (m) Lc_vagm_message_response_handler_12;
+
+842000e8 <Lc_vagm_message_response_handler_10>:
+        {
+            L2_DBG_MSG("VA_GM: response from Splitter");
+842000e8:	55 f1 02 f0 	r0 = Null + 357564747;
+842000ec:	4b 41 
+842000ee:	ff fd 04 f0 	call (m) 0x9a2;
+842000f2:	35 e5 
+            if (ext_data->splitter_deactivate_to_buffer)
+842000f4:	f0 89       	Null = M[r4 + 28];
+842000f6:	12 60       	if EQ jump (m) Lc_vagm_message_response_handler_14;
+
+842000f8 <Lc_vagm_message_response_handler_11>:
+            {
+                configure_splitter(op_data, OPMSG_SPLITTER_ID_BUFFER_STREAMS);
+842000f8:	43 21       	r1 = Null + 5;
+842000fa:	42 08       	r0 = r6 + Null;
+842000fc:	01 f0 3f ef 	call (m) Lc_configure_splitter_1;
+                ext_data->splitter_deactivate_to_buffer = FALSE;
+84200100:	f0 8f       	M[r4 + 28] = Null;
+84200102:	0c 6e       	jump (m) Lc_vagm_message_response_handler_14;
+
+84200104 <Lc_vagm_message_response_handler_12>:
+            }
+        }
+        else
+        {
+            /* Operator id is unrecognized */
+            fault_diatribe(FAULT_AUDIO_VAGM_UNRECOGNIZED_OPERATOR, src_op_id);
+84200104:	02 f0 65 40 	r0 = Null + 101;
+84200108:	ff fd 9d f0 	call (m) 0x13bcc;
+8420010c:	25 e6 
+8420010e:	06 6e       	jump (m) Lc_vagm_message_response_handler_14;
+
+84200110 <Lc_vagm_message_response_handler_13>:
+        }
+    }
+    else
+    {
+        /* Operation configuration went wrong */
+        fault_diatribe(FAULT_AUDIO_VAGM_ERROR_MESSAGE, src_op_id);
+84200110:	02 f0 66 40 	r0 = Null + 102;
+84200114:	ff fd 9d f0 	call (m) 0x13bcc;
+84200118:	39 e5 
+
+8420011a <Lc_vagm_message_response_handler_14>:
+    }
+    return TRUE;
+8420011a:	42 20       	r0 = Null + 1;
+
+8420011c <Lc_vagm_message_response_handler_15>:
+}
+8420011c:	f3 48       	popm <FP, r4, r5, r6, rLink>;
+8420011e:	d8 4c       	rts;
+
+84200120 <Lc_vagm_delegated_ops_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_delegated_ops(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+84200120:	f4 1c       	pushm <FP(=SP), r4, r5, r6, r7, rLink>;
+84200122:	10 09       	r6 = r0 + Null;
+84200124:	1e 00       	r4 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+84200126:	02 f0 3f e4 	call (m) $_base_op_get_instance_data;
+8420012a:	17 00       	r5 = r0 + Null;
+ * response
+ */
+static bool vagm_delegated_ops(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+    unsigned msg_len = OPMGR_GET_OPMSG_LENGTH((OP_MSG_REQ *)message_data);
+8420012c:	69 f0 01 88 	r7 = M[r4 + 4];
+
+    if (msg_len < OPMSG_OP_CLIENT_DELEGATED_OPERATORS_OPERATORS_WORD_OFFSET
+                  + VAGM_MIN_DELEGATED_OPERATORS)
+84200130:	90 f0 03 24 	Null = r7 - 3;
+84200134:	02 f0 89 e0 	if C jump (m) Lc_vagm_delegated_ops_3;
+
+84200138 <Lc_vagm_delegated_ops_2>:
+    {
+        return FALSE;
+84200138:	02 00       	r0 = Null + Null;
+8420013a:	37 6e       	jump (m) Lc_vagm_delegated_ops_11;
+
+8420013c <Lc_vagm_delegated_ops_3>:
+    }
+    if (msg_len > OPMSG_OP_CLIENT_DELEGATED_OPERATORS_OPERATORS_WORD_OFFSET
+                  + VAGM_MAX_DELEGATED_OPERATORS)
+8420013c:	90 f0 05 24 	Null = r7 - 5;
+84200140:	f8 ff f9 ef 	if HI jump (m) Lc_vagm_delegated_ops_2;
+
+84200144 <Lc_vagm_delegated_ops_4>:
+    {
+        return FALSE;
+    }
+
+    vagm_init(op_data);
+84200144:	42 08       	r0 = r6 + Null;
+84200146:	5d 4f       	call (m) Lc_vagm_init_1;
+
+    L2_DBG_MSG("VA_GM: delegated operators");
+84200148:	55 f1 02 f0 	r0 = Null + 357564513;
+8420014c:	61 40 
+8420014e:	ff fd 04 f0 	call (m) 0x9a2;
+84200152:	35 e2 
+
+    /* Application client will send the VAD operator in the first position. */
+    ext_data->vad_op_id = OPMSG_FIELD_GET_FROM_OFFSET(message_data, OPMSG_OP_CLIENT_DELEGATED_OPERATORS, OPERATORS, 0);
+84200154:	f1 88       	rMAC = M[r4 + 12];
+84200156:	89 c6       	rMAC = rMAC AND 0xffff;
+84200158:	39 ee       	M[r5 + Null] = rMAC;
+    /* Application client will send the VAD operator in the second position. */
+    ext_data->qva_op_id = OPMSG_FIELD_GET_FROM_OFFSET(message_data, OPMSG_OP_CLIENT_DELEGATED_OPERATORS, OPERATORS, 1);
+8420015a:	31 89       	rMAC = M[r4 + 16];
+8420015c:	89 c6       	rMAC = rMAC AND 0xffff;
+8420015e:	79 8e       	M[r5 + 4] = rMAC;
+
+    if (msg_len > OPMSG_OP_CLIENT_DELEGATED_OPERATORS_OPERATORS_WORD_OFFSET
+                  + VAGM_MIN_DELEGATED_OPERATORS)
+84200160:	90 f0 03 24 	Null = r7 - 3;
+84200164:	09 f0 99 e0 	if LS jump (m) Lc_vagm_delegated_ops_7;
+
+84200168 <Lc_vagm_delegated_ops_5>:
+    {
+        /* Application client will send the CVC operator in the third position. */
+        ext_data->cvc_op_id = OPMSG_FIELD_GET_FROM_OFFSET(message_data, OPMSG_OP_CLIENT_DELEGATED_OPERATORS, OPERATORS, 2);
+84200168:	71 89       	rMAC = M[r4 + 20];
+8420016a:	89 c6       	rMAC = rMAC AND 0xffff;
+8420016c:	b9 8e       	M[r5 + 8] = rMAC;
+    }
+    if (msg_len > OPMSG_OP_CLIENT_DELEGATED_OPERATORS_OPERATORS_WORD_OFFSET
+                  + VAGM_MIN_DELEGATED_OPERATORS + 1)
+8420016e:	90 f0 04 24 	Null = r7 - 4;
+84200172:	09 f0 8b e0 	if LS jump (m) Lc_vagm_delegated_ops_7;
+
+84200176 <Lc_vagm_delegated_ops_6>:
+    {
+        /* Application client will send the Splitter operator in the fourth position. */
+        ext_data->splitter_op_id = OPMSG_FIELD_GET_FROM_OFFSET(message_data, OPMSG_OP_CLIENT_DELEGATED_OPERATORS, OPERATORS, 3);
+84200176:	b1 89       	rMAC = M[r4 + 24];
+84200178:	89 c6       	rMAC = rMAC AND 0xffff;
+8420017a:	f9 8e       	M[r5 + 12] = rMAC;
+
+8420017c <Lc_vagm_delegated_ops_7>:
+    }
+
+    configure_vad(op_data, OPMSG_VAD_MODE_FULL_PROC);
+8420017c:	43 20       	r1 = Null + 1;
+8420017e:	42 08       	r0 = r6 + Null;
+84200180:	01 f0 2d e7 	call (m) Lc_configure_vad_1;
+
+    if (ext_data->splitter_op_id != 0)
+84200184:	f8 88       	Null = M[r5 + 12];
+84200186:	0c 60       	if EQ jump (m) Lc_vagm_delegated_ops_9;
+
+84200188 <Lc_vagm_delegated_ops_8>:
+    {
+        configure_qva(op_data, OPMSG_QVA_MODE_FULL_PROC);
+84200188:	43 20       	r1 = Null + 1;
+8420018a:	42 08       	r0 = r6 + Null;
+8420018c:	01 f0 2d e8 	call (m) Lc_configure_qva_1;
+        configure_splitter(op_data, OPMSG_SPLITTER_ID_DEACTIVATE_STREAMS);
+84200190:	03 21       	r1 = Null + 4;
+84200192:	42 08       	r0 = r6 + Null;
+84200194:	01 f0 27 eb 	call (m) Lc_configure_splitter_1;
+        ext_data->splitter_deactivate_to_buffer = TRUE;
+84200198:	41 20       	rMAC = Null + 1;
+8420019a:	f9 8f       	M[r5 + 28] = rMAC;
+8420019c:	05 6e       	jump (m) Lc_vagm_delegated_ops_10;
+
+8420019e <Lc_vagm_delegated_ops_9>:
+    }
+    else
+    {
+        configure_qva(op_data, OPMSG_QVA_MODE_PASS_THRU);
+8420019e:	83 20       	r1 = Null + 2;
+842001a0:	42 08       	r0 = r6 + Null;
+842001a2:	01 f0 37 e7 	call (m) Lc_configure_qva_1;
+
+842001a6 <Lc_vagm_delegated_ops_10>:
+    }
+
+    return TRUE;
+842001a6:	42 20       	r0 = Null + 1;
+
+842001a8 <Lc_vagm_delegated_ops_11>:
+}
+842001a8:	f4 48       	popm <FP, r4, r5, r6, r7, rLink>;
+842001aa:	d8 4c       	rts;
+
+842001ac <Lc_vagm_trigger_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_trigger(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+842001ac:	f5 1c       	pushm <FP(=SP), r4, r5, r6, r7, r8, rLink>;
+842001ae:	10 09       	r6 = r0 + Null;
+842001b0:	1f 00       	r5 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+842001b2:	02 f0 33 e0 	call (m) $_base_op_get_instance_data;
+842001b6:	16 00       	r4 = r0 + Null;
+ * response
+ */
+static bool vagm_trigger(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+    OPERATOR_ID src_op_id = OPMSG_FIELD_GET(message_data, OPMSG_OP_CLIENT_UNSOLICITED_MESSAGE, SOURCE_OP_ID);
+842001b8:	f9 88       	rMAC = M[r5 + 12];
+842001ba:	1a f7 ff 1f 	r8 = rMAC AND 0xffff;
+ */
+static inline bool waiting_for_any_response(VAGM_OP_DATA *ext_data)
+{
+    return (ext_data->wait_for_vad ||
+            ext_data->wait_for_qva ||
+            ext_data->aov_operation != NO_OPERATION);
+842001be:	70 89       	Null = M[r4 + 20];
+842001c0:	1d 62       	if NE jump (m) Lc_vagm_trigger_8;
+
+842001c2 <Lc_vagm_trigger_2>:
+842001c2:	b0 89       	Null = M[r4 + 24];
+842001c4:	1b 62       	if NE jump (m) Lc_vagm_trigger_8;
+
+842001c6 <Lc_vagm_trigger_3>:
+842001c6:	61 f0 20 80 	rMAC = MBS[r4 + 32];
+842001ca:	18 62       	if NE jump (m) Lc_vagm_trigger_8;
+
+842001cc <Lc_vagm_trigger_4>:
+         * This task should run at priority 0, so that the messages
+         * are handled sequentially. If this happens, we can ignore it. */
+        return TRUE;
+    }
+
+    if (src_op_id == ext_data->vad_op_id)
+842001cc:	6f fa 80 c2 	Null = r8 - M[r4];
+842001d0:	26 62       	if NE jump (m) Lc_vagm_trigger_12;
+
+842001d2 <Lc_vagm_trigger_5>:
+    {
+        L2_DBG_MSG("VA_GM: positive trigger from VAD");
+842001d2:	55 f1 02 f0 	r0 = Null + 357564540;
+842001d6:	7c 40 
+842001d8:	ff fd 03 f0 	call (m) 0x9a2;
+842001dc:	2b ee 
+
+        if (ext_data->lp_active)
+842001de:	b0 98       	Null = M[r4 + 40];
+842001e0:	0f 60       	if EQ jump (m) Lc_vagm_trigger_9;
+
+842001e2 <Lc_vagm_trigger_6>:
+        {
+            /**
+             * In low power mode, the MIPS budged is not enough to run QVA.
+             * We send a request to the framework to switch to a higher clock.
+             */
+            if (!manage_clock(op_data, TRUE))
+842001e2:	43 20       	r1 = Null + 1;
+842001e4:	42 08       	r0 = r6 + Null;
+842001e6:	01 f0 27 e1 	call (m) Lc_manage_clock_1;
+842001ea:	10 04       	Null = r0 - Null;
+842001ec:	07 62       	if NE jump (m) Lc_vagm_trigger_8;
+
+842001ee <Lc_vagm_trigger_7>:
+            {
+                /* AOV client is not present. Cannot change clock. */
+                fault_diatribe(FAULT_AUDIO_VAGM_AOV_NOT_PRESENT, src_op_id);
+842001ee:	02 f0 67 40 	r0 = Null + 103;
+842001f2:	53 08       	r1 = r8 + Null;
+842001f4:	ff fd 9c f0 	call (m) 0x13bcc;
+842001f8:	39 ee 
+
+842001fa <Lc_vagm_trigger_8>:
+    if (waiting_for_any_response(ext_data))
+    {
+        /* A trigger came while waiting for response by operators or aov.
+         * This task should run at priority 0, so that the messages
+         * are handled sequentially. If this happens, we can ignore it. */
+        return TRUE;
+842001fa:	42 20       	r0 = Null + 1;
+842001fc:	41 6e       	jump (m) Lc_vagm_trigger_18;
+
+842001fe <Lc_vagm_trigger_9>:
+                fault_diatribe(FAULT_AUDIO_VAGM_AOV_NOT_PRESENT, src_op_id);
+            }
+        }
+        else
+        {
+            ext_data->voice_activity = TRUE;
+842001fe:	47 20       	r5 = Null + 1;
+84200200:	77 9e       	M[r4 + 36] = r5;
+
+            if (ext_data->splitter_op_id != 0)
+84200202:	f0 88       	Null = M[r4 + 12];
+84200204:	06 60       	if EQ jump (m) Lc_vagm_trigger_11;
+
+84200206 <Lc_vagm_trigger_10>:
+            {
+                configure_splitter(op_data, OPMSG_SPLITTER_ID_ACTIVATE_STREAMS_AFTER_TIMESTAMP);
+84200206:	c3 20       	r1 = Null + 3;
+84200208:	42 08       	r0 = r6 + Null;
+8420020a:	01 f0 31 e7 	call (m) Lc_configure_splitter_1;
+8420020e:	f6 6f       	jump (m) Lc_vagm_trigger_8;
+
+84200210 <Lc_vagm_trigger_11>:
+            }
+            else
+            {
+                configure_qva(op_data, OPMSG_QVA_MODE_FULL_PROC);
+84200210:	3b 00       	r1 = r5 + Null;
+84200212:	42 08       	r0 = r6 + Null;
+84200214:	01 f0 25 e4 	call (m) Lc_configure_qva_1;
+                ext_data->wait_for_qva = TRUE;
+84200218:	b7 8f       	M[r4 + 24] = r5;
+8420021a:	f0 6f       	jump (m) Lc_vagm_trigger_8;
+
+8420021c <Lc_vagm_trigger_12>:
+            }
+        }
+    }
+    else if (src_op_id == ext_data->qva_op_id)
+8420021c:	71 88       	rMAC = M[r4 + 4];
+8420021e:	1f fa 00 c2 	Null = r8 - rMAC;
+84200222:	27 62       	if NE jump (m) Lc_vagm_trigger_17;
+
+84200224 <Lc_vagm_trigger_13>:
+    {
+        L2_DBG_MSG("VA_GM: positive trigger from QVA");
+84200224:	55 f1 02 f0 	r0 = Null + 357564573;
+84200228:	9d 40 
+8420022a:	ff fd 03 f0 	call (m) 0x9a2;
+8420022e:	39 eb 
+        unsigned *payload = OPMSG_FIELD_POINTER_GET(message_data, OPMSG_OP_CLIENT_UNSOLICITED_MESSAGE, PAYLOAD);
+84200230:	79 f0 10 20 	r7 = r5 + 16;
+        unsigned length = OPMGR_GET_OPCMD_MESSAGE_LENGTH((OPMSG_HEADER*)message_data);
+84200234:	7f 88       	r5 = M[r5 + 4];
+        configure_vad(op_data, OPMSG_VAD_MODE_PASS_THRU);
+84200236:	83 20       	r1 = Null + 2;
+84200238:	42 08       	r0 = r6 + Null;
+8420023a:	01 f0 33 e1 	call (m) Lc_configure_vad_1;
+        configure_qva(op_data, OPMSG_QVA_MODE_PASS_THRU);
+8420023e:	83 20       	r1 = Null + 2;
+84200240:	42 08       	r0 = r6 + Null;
+84200242:	01 f0 37 e2 	call (m) Lc_configure_qva_1;
+
+        if (ext_data->lp_active)
+84200246:	b0 98       	Null = M[r4 + 40];
+84200248:	0c 60       	if EQ jump (m) Lc_vagm_trigger_16;
+
+8420024a <Lc_vagm_trigger_14>:
+             * notification to the application client, as the link used by
+             * othe application is down.
+             */
+            if (aov_request_notify_trigger(op_data,
+                                           length - CLIENT_UNSOLICITED_MESSAGE_SIZE_EXTRA,
+                                           payload))
+8420024a:	bb 24       	r1 = r5 - 2;
+8420024c:	4c 08       	r2 = r7 + Null;
+8420024e:	42 08       	r0 = r6 + Null;
+84200250:	01 f0 27 ed 	call (m) $_aov_request_notify_trigger;
+84200254:	10 04       	Null = r0 - Null;
+84200256:	cc 61       	if EQ jump (m) Lc_vagm_trigger_7;
+
+84200258 <Lc_vagm_trigger_15>:
+            {
+                ext_data->aov_operation = FWD_TRIGGER;
+84200258:	c1 20       	rMAC = Null + 3;
+8420025a:	61 f0 20 8a 	MB[r4 + 32] = rMAC;
+8420025e:	ce 6f       	jump (m) Lc_vagm_trigger_8;
+
+84200260 <Lc_vagm_trigger_16>:
+             * Forward trigger notification and details to the application
+             * client through the standard link used by the application.
+             */
+            common_send_unsolicited_message(op_data, OPMSG_REPLY_ID_VA_TRIGGER,
+                                            length - CLIENT_UNSOLICITED_MESSAGE_SIZE_EXTRA,
+                                            payload);
+84200260:	bc 24       	r2 = r5 - 2;
+84200262:	83 20       	r1 = Null + 2;
+84200264:	4d 08       	r3 = r7 + Null;
+84200266:	42 08       	r0 = r6 + Null;
+84200268:	ef fd ff ff 	call (m) 0x25e;
+8420026c:	37 ef 
+8420026e:	c6 6f       	jump (m) Lc_vagm_trigger_8;
+
+84200270 <Lc_vagm_trigger_17>:
+        }
+    }
+    else
+    {
+        /* Operator id is unrecognized */
+        fault_diatribe(FAULT_AUDIO_VAGM_UNRECOGNIZED_OPERATOR, src_op_id);
+84200270:	02 f0 65 40 	r0 = Null + 101;
+84200274:	53 08       	r1 = r8 + Null;
+84200276:	ff fd 9c f0 	call (m) 0x13bcc;
+8420027a:	37 ea 
+8420027c:	bf 6f       	jump (m) Lc_vagm_trigger_8;
+
+8420027e <Lc_vagm_trigger_18>:
+    }
+    return TRUE;
+}
+8420027e:	f5 48       	popm <FP, r4, r5, r6, r7, r8, rLink>;
+84200280:	d8 4c       	rts;
+
+84200282 <Lc_vagm_negative_trigger_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_negative_trigger(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+84200282:	f3 1c       	pushm <FP(=SP), r4, r5, r6, rLink>;
+84200284:	17 00       	r5 = r0 + Null;
+84200286:	18 09       	r6 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+84200288:	01 f0 3d e9 	call (m) $_base_op_get_instance_data;
+8420028c:	16 00       	r4 = r0 + Null;
+ * response
+ */
+static bool vagm_negative_trigger(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+    OPERATOR_ID src_op_id = OPMSG_FIELD_GET(message_data, OPMSG_OP_CLIENT_UNSOLICITED_MESSAGE, SOURCE_OP_ID);
+8420028e:	81 f0 03 88 	rMAC = M[r6 + 12];
+84200292:	18 f7 ff 1f 	r6 = rMAC AND 0xffff;
+ */
+static inline bool waiting_for_any_response(VAGM_OP_DATA *ext_data)
+{
+    return (ext_data->wait_for_vad ||
+            ext_data->wait_for_qva ||
+            ext_data->aov_operation != NO_OPERATION);
+84200296:	70 89       	Null = M[r4 + 20];
+84200298:	10 62       	if NE jump (m) Lc_vagm_negative_trigger_6;
+
+8420029a <Lc_vagm_negative_trigger_2>:
+8420029a:	b0 89       	Null = M[r4 + 24];
+8420029c:	0e 62       	if NE jump (m) Lc_vagm_negative_trigger_6;
+
+8420029e <Lc_vagm_negative_trigger_3>:
+8420029e:	61 f0 20 80 	rMAC = MBS[r4 + 32];
+842002a2:	0b 62       	if NE jump (m) Lc_vagm_negative_trigger_6;
+
+842002a4 <Lc_vagm_negative_trigger_4>:
+         * This task should run at priority 0, so that the messages
+         * are handled sequentially. If this happens, we can ignore it. */
+        return TRUE;
+    }
+
+    if (src_op_id == ext_data->qva_op_id)
+842002a4:	71 88       	rMAC = M[r4 + 4];
+842002a6:	1f f8 00 c2 	Null = r6 - rMAC;
+842002aa:	09 62       	if NE jump (m) Lc_vagm_negative_trigger_7;
+
+842002ac <Lc_vagm_negative_trigger_5>:
+    {
+        L2_DBG_MSG("VA_GM: negative trigger from QVA");
+842002ac:	55 f1 02 f0 	r0 = Null + 357564606;
+842002b0:	be 40 
+842002b2:	ff fd 03 f0 	call (m) 0x9a2;
+842002b6:	31 e7 
+
+842002b8 <Lc_vagm_negative_trigger_6>:
+    if (waiting_for_any_response(ext_data))
+    {
+        /* A trigger came while waiting for response by operators or aov.
+         * This task should run at priority 0, so that the messages
+         * are handled sequentially. If this happens, we can ignore it. */
+        return TRUE;
+842002b8:	42 20       	r0 = Null + 1;
+842002ba:	2e 6e       	jump (m) Lc_vagm_negative_trigger_15;
+
+842002bc <Lc_vagm_negative_trigger_7>:
+    if (src_op_id == ext_data->qva_op_id)
+    {
+        L2_DBG_MSG("VA_GM: negative trigger from QVA");
+        /* We will ignore this and use the negative trigger from VAD.*/
+    }
+    else if (src_op_id == ext_data->vad_op_id)
+842002bc:	6f f8 80 c2 	Null = r6 - M[r4];
+842002c0:	24 62       	if NE jump (m) Lc_vagm_negative_trigger_14;
+
+842002c2 <Lc_vagm_negative_trigger_8>:
+    {
+        L2_DBG_MSG("VA_GM: negative trigger from VAD");
+842002c2:	55 f1 02 f0 	r0 = Null + 357564639;
+842002c6:	df 40 
+842002c8:	ff fd 03 f0 	call (m) 0x9a2;
+842002cc:	3b e6 
+
+        ext_data->voice_activity = FALSE;
+842002ce:	70 9e       	M[r4 + 36] = Null;
+
+        if (ext_data->splitter_op_id != 0)
+842002d0:	f0 88       	Null = M[r4 + 12];
+842002d2:	08 60       	if EQ jump (m) Lc_vagm_negative_trigger_10;
+
+842002d4 <Lc_vagm_negative_trigger_9>:
+        {
+            configure_splitter(op_data, OPMSG_SPLITTER_ID_DEACTIVATE_STREAMS);
+842002d4:	03 21       	r1 = Null + 4;
+842002d6:	3a 00       	r0 = r5 + Null;
+842002d8:	01 f0 23 e1 	call (m) Lc_configure_splitter_1;
+            ext_data->splitter_deactivate_to_buffer = TRUE;
+842002dc:	41 20       	rMAC = Null + 1;
+842002de:	f1 8f       	M[r4 + 28] = rMAC;
+842002e0:	06 6e       	jump (m) Lc_vagm_negative_trigger_11;
+
+842002e2 <Lc_vagm_negative_trigger_10>:
+        }
+        else
+        {
+            configure_qva(op_data, OPMSG_QVA_MODE_PASS_THRU);
+842002e2:	83 20       	r1 = Null + 2;
+842002e4:	3a 00       	r0 = r5 + Null;
+842002e6:	d9 4e       	call (m) Lc_configure_qva_1;
+            ext_data->wait_for_qva = TRUE;
+842002e8:	41 20       	rMAC = Null + 1;
+842002ea:	b1 8f       	M[r4 + 24] = rMAC;
+
+842002ec <Lc_vagm_negative_trigger_11>:
+        }
+
+        if (ext_data->lp_active)
+842002ec:	b0 98       	Null = M[r4 + 40];
+842002ee:	e5 61       	if EQ jump (m) Lc_vagm_negative_trigger_6;
+
+842002f0 <Lc_vagm_negative_trigger_12>:
+        {
+            /**
+             * Since we will wait for another VAD trigger, get back to the
+             * default low power clock.
+             */
+            if (!manage_clock(op_data, FALSE))
+842002f0:	03 00       	r1 = Null + Null;
+842002f2:	3a 00       	r0 = r5 + Null;
+842002f4:	8c 4e       	call (m) Lc_manage_clock_1;
+842002f6:	10 04       	Null = r0 - Null;
+842002f8:	e0 63       	if NE jump (m) Lc_vagm_negative_trigger_6;
+
+842002fa <Lc_vagm_negative_trigger_13>:
+            {
+                /* AOV client is not present. Cannot change clock. */
+                fault_diatribe(FAULT_AUDIO_VAGM_AOV_NOT_PRESENT, src_op_id);
+842002fa:	02 f0 67 40 	r0 = Null + 103;
+842002fe:	43 08       	r1 = r6 + Null;
+84200300:	ff fd 9c f0 	call (m) 0x13bcc;
+84200304:	2d e6 
+84200306:	d9 6f       	jump (m) Lc_vagm_negative_trigger_6;
+
+84200308 <Lc_vagm_negative_trigger_14>:
+        }
+    }
+    else
+    {
+        /* Operator id is unrecognized */
+        fault_diatribe(FAULT_AUDIO_VAGM_UNRECOGNIZED_OPERATOR, src_op_id);
+84200308:	02 f0 65 40 	r0 = Null + 101;
+8420030c:	43 08       	r1 = r6 + Null;
+8420030e:	ff fd 9c f0 	call (m) 0x13bcc;
+84200312:	3f e5 
+84200314:	d2 6f       	jump (m) Lc_vagm_negative_trigger_6;
+
+84200316 <Lc_vagm_negative_trigger_15>:
+    }
+    return TRUE;
+}
+84200316:	f3 48       	popm <FP, r4, r5, r6, rLink>;
+84200318:	d8 4c       	rts;
+
+8420031a <Lc_vagm_lp_notification_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_lp_notification(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+8420031a:	f3 1c       	pushm <FP(=SP), r4, r5, r6, rLink>;
+8420031c:	16 00       	r4 = r0 + Null;
+8420031e:	18 09       	r6 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+84200320:	01 f0 25 e5 	call (m) $_base_op_get_instance_data;
+84200324:	17 00       	r5 = r0 + Null;
+ * response
+ */
+static bool vagm_lp_notification(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+    L2_DBG_MSG("VA_GM: Low power notification");
+84200326:	55 f1 02 f0 	r0 = Null + 357564777;
+8420032a:	69 41 
+8420032c:	ff fd 03 f0 	call (m) 0x9a2;
+84200330:	37 e3 
+    bool lp_activated = (bool) OPMSG_FIELD_GET(message_data, OPMSG_OP_CLIENT_AOV_LP, ACTIVE);
+84200332:	81 f0 03 88 	rMAC = M[r6 + 12];
+
+    if (lp_activated)
+84200336:	18 f7 ff 1f 	r6 = rMAC AND 0xffff;
+8420033a:	14 60       	if EQ jump (m) Lc_vagm_lp_notification_7;
+
+8420033c <Lc_vagm_lp_notification_2>:
+    {
+        /* We are entering low power. */
+        if (ext_data->cvc_op_id != 0)
+8420033c:	b8 88       	Null = M[r5 + 8];
+8420033e:	04 60       	if EQ jump (m) Lc_vagm_lp_notification_4;
+
+84200340 <Lc_vagm_lp_notification_3>:
+        {
+            /* In low power, we cannot afford to run cvc.*/
+            configure_cvc(op_data, OPMSG_CVC_SEND_MODE_PASS_THRU_LEFT);
+84200340:	03 21       	r1 = Null + 4;
+84200342:	32 00       	r0 = r4 + Null;
+84200344:	c0 4e       	call (m) Lc_configure_cvc_1;
+
+84200346 <Lc_vagm_lp_notification_4>:
+        }
+        if( ext_data->voice_activity)
+84200346:	78 98       	Null = M[r5 + 36];
+84200348:	14 60       	if EQ jump (m) Lc_vagm_lp_notification_10;
+
+8420034a <Lc_vagm_lp_notification_5>:
+        {
+            /**
+             * In low power mode, the MIPS budged is not enough to run QVA.
+             * We send a request to the framework to switch to a higher clock.
+             */
+            if (!manage_clock(op_data, TRUE))
+8420034a:	43 20       	r1 = Null + 1;
+8420034c:	32 00       	r0 = r4 + Null;
+8420034e:	5f 4e       	call (m) Lc_manage_clock_1;
+84200350:	10 04       	Null = r0 - Null;
+84200352:	0f 62       	if NE jump (m) Lc_vagm_lp_notification_10;
+
+84200354 <Lc_vagm_lp_notification_6>:
+            {
+                /* AOV client is not present. Cannot change clock. */
+                fault_diatribe(FAULT_AUDIO_VAGM_AOV_NOT_PRESENT, 0);
+84200354:	02 f0 67 40 	r0 = Null + 103;
+84200358:	03 00       	r1 = Null + Null;
+8420035a:	ff fd 9c f0 	call (m) 0x13bcc;
+8420035e:	33 e3 
+84200360:	08 6e       	jump (m) Lc_vagm_lp_notification_10;
+
+84200362 <Lc_vagm_lp_notification_7>:
+            }
+        }
+    }
+    else
+    {
+        if(ext_data->lp_active)
+84200362:	b8 98       	Null = M[r5 + 40];
+84200364:	06 60       	if EQ jump (m) Lc_vagm_lp_notification_10;
+
+84200366 <Lc_vagm_lp_notification_8>:
+        {
+            /* We are entering low power. */
+            if (ext_data->cvc_op_id != 0)
+84200366:	b8 88       	Null = M[r5 + 8];
+84200368:	04 60       	if EQ jump (m) Lc_vagm_lp_notification_10;
+
+8420036a <Lc_vagm_lp_notification_9>:
+            {
+                /* We are exiting low power. */
+                configure_cvc(op_data, OPMSG_CVC_SEND_MODE_FULL_PROC);
+8420036a:	83 20       	r1 = Null + 2;
+8420036c:	32 00       	r0 = r4 + Null;
+8420036e:	ab 4e       	call (m) Lc_configure_cvc_1;
+
+84200370 <Lc_vagm_lp_notification_10>:
+        {
+           /* We are still in active mode. */
+        }
+    }
+
+    ext_data->lp_active = lp_activated;
+84200370:	78 f0 0a 8e 	M[r5 + 40] = r6;
+
+    return TRUE;
+84200374:	42 20       	r0 = Null + 1;
+
+84200376 <Lc_vagm_lp_notification_11>:
+
+}
+84200376:	f3 48       	popm <FP, r4, r5, r6, rLink>;
+84200378:	d8 4c       	rts;
+
+8420037a <Lc_vagm_aov_response_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_aov_response(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+8420037a:	f3 1c       	pushm <FP(=SP), r4, r5, r6, rLink>;
+8420037c:	17 00       	r5 = r0 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+8420037e:	01 f0 27 e2 	call (m) $_base_op_get_instance_data;
+84200382:	16 00       	r4 = r0 + Null;
+ */
+static bool vagm_aov_response(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+
+    L2_DBG_MSG("VA_GM: Response from AOV");
+84200384:	55 f1 02 f0 	r0 = Null + 357564807;
+84200388:	87 41 
+8420038a:	ff fd 03 f0 	call (m) 0x9a2;
+8420038e:	39 e0 
+    switch(ext_data->aov_operation)
+84200390:	61 f0 20 80 	rMAC = MBS[r4 + 32];
+84200394:	48 24       	Null = rMAC - 1;
+84200396:	0c 60       	if EQ jump (m) Lc_vagm_aov_response_6;
+
+84200398 <Lc_vagm_aov_response_2>:
+84200398:	c8 24       	Null = rMAC - 3;
+8420039a:	06 62       	if NE jump (m) Lc_vagm_aov_response_5;
+
+8420039c <Lc_vagm_aov_response_3>:
+        }
+        break;
+    }
+    case FWD_TRIGGER:
+    {
+        if (ext_data->cvc_op_id != 0)
+8420039c:	b0 88       	Null = M[r4 + 8];
+8420039e:	04 60       	if EQ jump (m) Lc_vagm_aov_response_5;
+
+842003a0 <Lc_vagm_aov_response_4>:
+        {
+            /* We will now be exiting from low power. */
+            configure_cvc(op_data, OPMSG_CVC_SEND_MODE_FULL_PROC);
+842003a0:	83 20       	r1 = Null + 2;
+842003a2:	3a 00       	r0 = r5 + Null;
+842003a4:	90 4e       	call (m) Lc_configure_cvc_1;
+
+842003a6 <Lc_vagm_aov_response_5>:
+    {
+        /* Do nothing... */
+        break;
+    }
+    }
+    ext_data->aov_operation = NO_OPERATION;
+842003a6:	60 f0 20 8a 	MB[r4 + 32] = Null;
+
+    return TRUE;
+842003aa:	42 20       	r0 = Null + 1;
+842003ac:	12 6e       	jump (m) Lc_vagm_aov_response_10;
+
+842003ae <Lc_vagm_aov_response_6>:
+    L2_DBG_MSG("VA_GM: Response from AOV");
+    switch(ext_data->aov_operation)
+    {
+    case SCALE_CUSTOM:
+    {
+        if (!ext_data->voice_activity)
+842003ae:	70 98       	Null = M[r4 + 36];
+842003b0:	fb 63       	if NE jump (m) Lc_vagm_aov_response_5;
+
+842003b2 <Lc_vagm_aov_response_7>:
+        {
+            ext_data->voice_activity = TRUE;
+842003b2:	08 71       	r6 = Null + 1;
+842003b4:	68 f0 09 8e 	M[r4 + 36] = r6;
+
+            if (ext_data->splitter_op_id != 0)
+842003b8:	f0 88       	Null = M[r4 + 12];
+842003ba:	05 60       	if EQ jump (m) Lc_vagm_aov_response_9;
+
+842003bc <Lc_vagm_aov_response_8>:
+            {
+                configure_splitter(op_data, OPMSG_SPLITTER_ID_ACTIVATE_STREAMS_AFTER_TIMESTAMP);
+842003bc:	c3 20       	r1 = Null + 3;
+842003be:	3a 00       	r0 = r5 + Null;
+842003c0:	9d 4e       	call (m) Lc_configure_splitter_1;
+842003c2:	f2 6f       	jump (m) Lc_vagm_aov_response_5;
+
+842003c4 <Lc_vagm_aov_response_9>:
+            }
+            else
+            {
+                configure_qva(op_data, OPMSG_QVA_MODE_FULL_PROC);
+842003c4:	43 08       	r1 = r6 + Null;
+842003c6:	3a 00       	r0 = r5 + Null;
+842003c8:	68 4e       	call (m) Lc_configure_qva_1;
+                ext_data->wait_for_qva = TRUE;
+842003ca:	68 f0 06 8e 	M[r4 + 24] = r6;
+842003ce:	ec 6f       	jump (m) Lc_vagm_aov_response_5;
+
+842003d0 <Lc_vagm_aov_response_10>:
+    }
+    }
+    ext_data->aov_operation = NO_OPERATION;
+
+    return TRUE;
+}
+842003d0:	f3 48       	popm <FP, r4, r5, r6, rLink>;
+842003d2:	d8 4c       	rts;
+
+842003d4 <Lc_vagm_set_graph_load_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_set_graph_load(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+842003d4:	f2 1c       	pushm <FP(=SP), r4, r5, rLink>;
+842003d6:	1e 00       	r4 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+842003d8:	f6 4e       	call (m) $_base_op_get_instance_data;
+842003da:	17 00       	r5 = r0 + Null;
+ */
+static bool vagm_set_graph_load(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+
+    L3_DBG_MSG("VA_GM: Graph Load");
+842003dc:	01 f0 28 91 	rMAC = MBS[Null + 0x328];
+842003e0:	c8 24       	Null = rMAC - 3;
+842003e2:	07 68       	if LT jump (m) Lc_vagm_set_graph_load_3;
+
+842003e4 <Lc_vagm_set_graph_load_2>:
+842003e4:	55 f1 02 f0 	r0 = Null + 357564832;
+842003e8:	a0 41 
+842003ea:	ff fd 02 f0 	call (m) 0x9a2;
+842003ee:	39 ed 
+
+842003f0 <Lc_vagm_set_graph_load_3>:
+    ext_data->graph_load = (OPMSG_VA_GM_LOAD) OPMSG_FIELD_GET(message_data, OPMSG_VA_GM_SET_GRAPH_LOAD, LOAD);
+842003f0:	f1 88       	rMAC = M[r4 + 12];
+842003f2:	39 aa       	MB[r5 + 16] = rMAC;
+
+    return TRUE;
+842003f4:	42 20       	r0 = Null + 1;
+
+842003f6 <Lc_vagm_set_graph_load_4>:
+}
+842003f6:	f2 48       	popm <FP, r4, r5, rLink>;
+842003f8:	d8 4c       	rts;
+
+842003fa <Lc_vagm_set_splitter_offset_1>:
+ *
+ * \return Whether the response_data field has been populated with a valid
+ * response
+ */
+static bool vagm_set_splitter_offset(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+842003fa:	f1 1c       	pushm <FP(=SP), r4, rLink>;
+842003fc:	1e 00       	r4 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+842003fe:	e3 4e       	call (m) $_base_op_get_instance_data;
+ * response
+ */
+static bool vagm_set_splitter_offset(OPERATOR_DATA *op_data, void *message_data, unsigned int *resp_length, OP_OPMSG_RSP_PAYLOAD **resp_data)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+    unsigned value = OPMSG_FIELD_GET(message_data, OPMSG_VA_GM_SET_SPLITTER_OFFSET, OFFSET);
+84200400:	f1 88       	rMAC = M[r4 + 12];
+84200402:	89 c6       	rMAC = rMAC AND 0xffff;
+    ext_data->buffer_time_offset_ms = value;
+84200404:	d1 9e       	M[r0 + 44] = rMAC;
+
+    return TRUE;
+84200406:	42 20       	r0 = Null + 1;
+
+84200408 <Lc_vagm_set_splitter_offset_2>:
+}
+84200408:	f1 48       	popm <FP, r4, rLink>;
+8420040a:	d8 4c       	rts;
+
+8420040c <Lc_manage_clock_1>:
+ * \param custom_clock Whether we are setting a custom clock (or the default)
+ *
+ * \return True if success (request successfully sent or no change needed)
+ */
+static bool manage_clock(OPERATOR_DATA *op_data, bool custom_clock)
+{
+8420040c:	f4 1c       	pushm <FP(=SP), r4, r5, r6, r7, rLink>;
+8420040e:	17 00       	r5 = r0 + Null;
+84200410:	18 09       	r6 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+84200412:	d9 4e       	call (m) $_base_op_get_instance_data;
+84200414:	16 00       	r4 = r0 + Null;
+static bool manage_clock(OPERATOR_DATA *op_data, bool custom_clock)
+{
+    AOV_IF_CPU_CLK clk_val;
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+
+    switch(ext_data->graph_load)
+84200416:	31 a2       	rMAC = MBU[r4 + 16];
+84200418:	48 24       	Null = rMAC - 1;
+8420041a:	07 60       	if EQ jump (m) Lc_manage_clock_5;
+
+8420041c <Lc_manage_clock_2>:
+8420041c:	88 24       	Null = rMAC - 2;
+8420041e:	16 60       	if EQ jump (m) Lc_manage_clock_9;
+
+84200420 <Lc_manage_clock_3>:
+84200420:	c8 24       	Null = rMAC - 3;
+84200422:	19 62       	if NE jump (m) Lc_manage_clock_11;
+
+84200424 <Lc_manage_clock_4>:
+        break;
+    case OPMSG_VA_GM_LOAD_MEDIUM:
+        clk_val = AOV_IF_CPU_CLK_BASE_CLOCK;
+        break;
+    case OPMSG_VA_GM_LOAD_LOW:
+        clk_val = AOV_IF_CPU_CLK_SLOW_CLOCK;
+84200424:	29 71       	r7 = Null + 5;
+        break;
+84200426:	02 6e       	jump (m) Lc_manage_clock_6;
+
+84200428 <Lc_manage_clock_5>:
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+
+    switch(ext_data->graph_load)
+    {
+    case OPMSG_VA_GM_LOAD_FULL:
+        clk_val = AOV_IF_CPU_CLK_TURBO;
+84200428:	39 71       	r7 = Null + 7;
+
+8420042a <Lc_manage_clock_6>:
+        break;
+    default:
+        return TRUE;
+    }
+
+    L2_DBG_MSG("VA_GM: request AOV");
+8420042a:	55 f1 02 f0 	r0 = Null + 357564850;
+8420042e:	b2 41 
+84200430:	ff fd 02 f0 	call (m) 0x9a2;
+84200434:	33 eb 
+
+    if (custom_clock)
+84200436:	0f f8 00 c2 	Null = r6 - Null;
+8420043a:	0f 60       	if EQ jump (m) Lc_manage_clock_12;
+
+8420043c <Lc_manage_clock_7>:
+    {
+        if (!aov_request_custom_clock(op_data, clk_val))
+8420043c:	4b 08       	r1 = r7 + Null;
+8420043e:	3a 00       	r0 = r5 + Null;
+84200440:	d2 4e       	call (m) $_aov_request_custom_clock;
+84200442:	10 04       	Null = r0 - Null;
+84200444:	05 62       	if NE jump (m) Lc_manage_clock_10;
+
+84200446 <Lc_manage_clock_8>:
+        {
+            return FALSE;
+84200446:	02 00       	r0 = Null + Null;
+84200448:	10 6e       	jump (m) Lc_manage_clock_14;
+
+8420044a <Lc_manage_clock_9>:
+    {
+    case OPMSG_VA_GM_LOAD_FULL:
+        clk_val = AOV_IF_CPU_CLK_TURBO;
+        break;
+    case OPMSG_VA_GM_LOAD_MEDIUM:
+        clk_val = AOV_IF_CPU_CLK_BASE_CLOCK;
+8420044a:	31 71       	r7 = Null + 6;
+        break;
+8420044c:	ef 6f       	jump (m) Lc_manage_clock_6;
+
+8420044e <Lc_manage_clock_10>:
+    {
+        if (!aov_request_custom_clock(op_data, clk_val))
+        {
+            return FALSE;
+        }
+        ext_data->aov_operation = SCALE_CUSTOM;
+8420044e:	41 20       	rMAC = Null + 1;
+84200450:	61 f0 20 8a 	MB[r4 + 32] = rMAC;
+
+84200454 <Lc_manage_clock_11>:
+        break;
+    case OPMSG_VA_GM_LOAD_LOW:
+        clk_val = AOV_IF_CPU_CLK_SLOW_CLOCK;
+        break;
+    default:
+        return TRUE;
+84200454:	42 20       	r0 = Null + 1;
+84200456:	09 6e       	jump (m) Lc_manage_clock_14;
+
+84200458 <Lc_manage_clock_12>:
+        }
+        ext_data->aov_operation = SCALE_CUSTOM;
+    }
+    else
+    {
+        if (!aov_request_default_clock(op_data))
+84200458:	3a 00       	r0 = r5 + Null;
+8420045a:	bc 4e       	call (m) $_aov_request_default_clock;
+8420045c:	10 04       	Null = r0 - Null;
+8420045e:	f4 61       	if EQ jump (m) Lc_manage_clock_8;
+
+84200460 <Lc_manage_clock_13>:
+        {
+            return FALSE;
+        }
+        ext_data->aov_operation = SCALE_BACK;
+84200460:	81 20       	rMAC = Null + 2;
+84200462:	61 f0 20 8a 	MB[r4 + 32] = rMAC;
+84200466:	f7 6f       	jump (m) Lc_manage_clock_11;
+
+84200468 <Lc_manage_clock_14>:
+    }
+
+    return TRUE;
+}
+84200468:	f4 48       	popm <FP, r4, r5, r6, r7, rLink>;
+8420046a:	d8 4c       	rts;
+
+8420046c <Lc_configure_vad_1>:
+ *
+ * \param op_data Pointer to the operator instance data.
+ * \param mode Operation mode to set VAD.
+ */
+static void configure_vad(OPERATOR_DATA *op_data, OPMSG_VAD_MODE mode)
+{
+8420046c:	f3 1d       	pushm <FP(=SP), r4, r5, r6, rLink>, SP = SP + 0x10;
+8420046e:	16 00       	r4 = r0 + Null;
+84200470:	1f 00       	r5 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+84200472:	a9 4e       	call (m) $_base_op_get_instance_data;
+84200474:	10 09       	r6 = r0 + Null;
+static void configure_vad(OPERATOR_DATA *op_data, OPMSG_VAD_MODE mode)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+    unsigned msg[OPMSG_VAD_MODE_CHANGE_WORD_SIZE];
+
+    L2_DBG_MSG("VA_GM: Configuring VAD");
+84200476:	55 f1 02 f0 	r0 = Null + 357564416;
+8420047a:	00 40 
+8420047c:	ff fd 02 f0 	call (m) 0x9a2;
+84200480:	27 e9 
+
+    OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_VAD_MODE_CHANGE, MESSAGE_ID, OPMSG_VAD_ID_MODE_CHANGE);
+84200482:	41 20       	rMAC = Null + 1;
+84200484:	29 de       	M[FP + 20] = rMAC;
+    OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_VAD_MODE_CHANGE, WORKING_MODE, mode);
+84200486:	37 de       	M[FP + 24] = r5;
+
+    opmgr_op_client_send_message(op_data, ext_data->vad_op_id,
+                                 OPMSG_VAD_MODE_CHANGE_WORD_SIZE,
+                                 (unsigned *) &msg);
+84200488:	45 11       	r3 = FP + 20;
+8420048a:	84 20       	r2 = Null + 2;
+8420048c:	83 f0 00 e8 	r1 = M[r6 + Null];
+84200490:	32 00       	r0 = r4 + Null;
+84200492:	bb 4e       	call (m) $_opmgr_op_client_send_message;
+
+84200494 <Lc_configure_vad_2>:
+}
+84200494:	f3 49       	SP = SP - 0x10, popm <FP, r4, r5, r6, rLink>;
+84200496:	d8 4c       	rts;
+
+84200498 <Lc_configure_qva_1>:
+ *
+ * \param op_data Pointer to the operator instance data.
+ * \param mode Operation mode to set QVA.
+ */
+static void configure_qva(OPERATOR_DATA *op_data, OPMSG_QVA_MODE mode)
+{
+84200498:	f3 1d       	pushm <FP(=SP), r4, r5, r6, rLink>, SP = SP + 0x10;
+8420049a:	16 00       	r4 = r0 + Null;
+8420049c:	1f 00       	r5 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+8420049e:	93 4e       	call (m) $_base_op_get_instance_data;
+842004a0:	10 09       	r6 = r0 + Null;
+static void configure_qva(OPERATOR_DATA *op_data, OPMSG_QVA_MODE mode)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+    unsigned msg[OPMSG_QVA_MODE_CHANGE_WORD_SIZE];
+
+    L2_DBG_MSG("VA_GM: Configuring QVA");
+842004a2:	55 f1 02 f0 	r0 = Null + 357564439;
+842004a6:	17 40 
+842004a8:	ff fd 02 f0 	call (m) 0x9a2;
+842004ac:	3b e7 
+
+    OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_QVA_MODE_CHANGE, MESSAGE_ID, OPMSG_QVA_ID_MODE_CHANGE);
+842004ae:	41 20       	rMAC = Null + 1;
+842004b0:	29 de       	M[FP + 20] = rMAC;
+    OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_QVA_MODE_CHANGE, WORKING_MODE, mode);
+842004b2:	37 de       	M[FP + 24] = r5;
+
+    opmgr_op_client_send_message(op_data, ext_data->qva_op_id,
+                                 OPMSG_QVA_MODE_CHANGE_WORD_SIZE,
+                                 (unsigned *) &msg);
+842004b4:	45 11       	r3 = FP + 20;
+842004b6:	84 20       	r2 = Null + 2;
+842004b8:	83 f0 01 88 	r1 = M[r6 + 4];
+842004bc:	32 00       	r0 = r4 + Null;
+842004be:	a5 4e       	call (m) $_opmgr_op_client_send_message;
+
+842004c0 <Lc_configure_qva_2>:
+}
+842004c0:	f3 49       	SP = SP - 0x10, popm <FP, r4, r5, r6, rLink>;
+842004c2:	d8 4c       	rts;
+
+842004c4 <Lc_configure_cvc_1>:
+ *
+ * \param op_data Pointer to the operator instance data.
+ * \param mode Operation mode to set CVC.
+ */
+static void configure_cvc(OPERATOR_DATA *op_data, OPMSG_CVC_SEND_MODE mode)
+{
+842004c4:	f3 1e       	pushm <FP(=SP), r4, r5, r6, rLink>, SP = SP + 0x20;
+842004c6:	16 00       	r4 = r0 + Null;
+842004c8:	1f 00       	r5 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+842004ca:	7d 4e       	call (m) $_base_op_get_instance_data;
+842004cc:	10 09       	r6 = r0 + Null;
+static void configure_cvc(OPERATOR_DATA *op_data, OPMSG_CVC_SEND_MODE mode)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+    unsigned msg[OPMSG_COMMON_SET_CONTROL_WORD_SIZE];
+
+    L2_DBG_MSG("VA_GM: Configuring CVC");
+842004ce:	55 f1 02 f0 	r0 = Null + 357564462;
+842004d2:	2e 40 
+842004d4:	ff fd 02 f0 	call (m) 0x9a2;
+842004d8:	2f e6 
+
+    OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_COMMON_SET_CONTROL, MESSAGE_ID, OPMSG_COMMON_ID_SET_CONTROL);
+842004da:	11 f0 02 40 	rMAC = Null + 8194;
+842004de:	29 de       	M[FP + 20] = rMAC;
+    OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_COMMON_SET_CONTROL, NUM_BLOCKS, 1);
+842004e0:	41 20       	rMAC = Null + 1;
+842004e2:	31 de       	M[FP + 24] = rMAC;
+    OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_COMMON_SET_CONTROL, CONTROL_ID, OPMSG_CONTROL_MODE_ID);
+842004e4:	39 de       	M[FP + 28] = rMAC;
+    OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_COMMON_SET_CONTROL, VALUE_MSW, 0);
+842004e6:	40 de       	M[FP + 32] = Null;
+    OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_COMMON_SET_CONTROL, VALUE_LSW, mode);
+842004e8:	4f de       	M[FP + 36] = r5;
+
+    opmgr_op_client_send_message(op_data, ext_data->cvc_op_id,
+                                 OPMSG_COMMON_SET_CONTROL_WORD_SIZE,
+                                 (unsigned *) &msg);
+842004ea:	45 11       	r3 = FP + 20;
+842004ec:	44 21       	r2 = Null + 5;
+842004ee:	83 f0 02 88 	r1 = M[r6 + 8];
+842004f2:	32 00       	r0 = r4 + Null;
+842004f4:	8a 4e       	call (m) $_opmgr_op_client_send_message;
+
+842004f6 <Lc_configure_cvc_2>:
+}
+842004f6:	f3 4a       	SP = SP - 0x20, popm <FP, r4, r5, r6, rLink>;
+842004f8:	d8 4c       	rts;
+
+842004fa <Lc_configure_splitter_1>:
+ *
+ * \param op_data Pointer to the operator instance data.
+ * \param mode Operation mode to set Splitter.
+ */
+static void configure_splitter(OPERATOR_DATA *op_data, OPMSG_SPLITTER_ID mode)
+{
+842004fa:	f3 1e       	pushm <FP(=SP), r4, r5, r6, rLink>, SP = SP + 0x20;
+842004fc:	17 00       	r5 = r0 + Null;
+842004fe:	18 09       	r6 = r1 + Null;
+MAP_INSTANCE_DATA(CAP_ID_DOWNLOAD_VA_GRAPH_MANAGER, VAGM_OP_DATA)
+#endif /* CAPABILITY_DOWNLOAD_BUILD */
+
+static inline VAGM_OP_DATA *get_instance_data(OPERATOR_DATA *op_data)
+{
+    return (VAGM_OP_DATA *) base_op_get_instance_data(op_data);
+84200500:	62 4e       	call (m) $_base_op_get_instance_data;
+84200502:	16 00       	r4 = r0 + Null;
+ */
+static void configure_splitter(OPERATOR_DATA *op_data, OPMSG_SPLITTER_ID mode)
+{
+    VAGM_OP_DATA *ext_data = get_instance_data(op_data);
+
+    L2_DBG_MSG("VA_GM: Configuring Splitter");
+84200504:	55 f1 02 f0 	r0 = Null + 357564485;
+84200508:	45 40 
+8420050a:	ff fd 02 f0 	call (m) 0x9a2;
+8420050e:	39 e4 
+
+    switch(mode)
+84200510:	80 f0 03 24 	Null = r6 - 3;
+84200514:	1b 60       	if EQ jump (m) Lc_configure_splitter_6;
+
+84200516 <Lc_configure_splitter_2>:
+84200516:	80 f0 04 24 	Null = r6 - 4;
+8420051a:	0e 60       	if EQ jump (m) Lc_configure_splitter_5;
+
+8420051c <Lc_configure_splitter_3>:
+8420051c:	80 f0 05 24 	Null = r6 - 5;
+84200520:	2a 62       	if NE jump (m) Lc_configure_splitter_7;
+
+84200522 <Lc_configure_splitter_4>:
+        break;
+    }
+    case OPMSG_SPLITTER_ID_BUFFER_STREAMS:
+    {
+        unsigned msg[OPMSG_SPLITTER_BUFFER_STREAMS_WORD_SIZE];
+        OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_SPLITTER_BUFFER_STREAMS, MESSAGE_ID, OPMSG_SPLITTER_ID_BUFFER_STREAMS);
+84200522:	41 21       	rMAC = Null + 5;
+84200524:	59 de       	M[FP + 44] = rMAC;
+        OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_SPLITTER_BUFFER_STREAMS, STREAMS, SPLITTER_STREAMS_BIT);
+84200526:	41 20       	rMAC = Null + 1;
+84200528:	61 de       	M[FP + 48] = rMAC;
+
+        opmgr_op_client_send_message(op_data, ext_data->splitter_op_id,
+                                     OPMSG_SPLITTER_DEACTIVATE_STREAMS_WORD_SIZE,
+                                     msg);
+8420052a:	c5 12       	r3 = FP + 44;
+8420052c:	84 20       	r2 = Null + 2;
+8420052e:	f3 88       	r1 = M[r4 + 12];
+84200530:	3a 00       	r0 = r5 + Null;
+84200532:	6b 4e       	call (m) $_opmgr_op_client_send_message;
+        break;
+84200534:	20 6e       	jump (m) Lc_configure_splitter_7;
+
+84200536 <Lc_configure_splitter_5>:
+    switch(mode)
+    {
+    case OPMSG_SPLITTER_ID_DEACTIVATE_STREAMS:
+    {
+        unsigned msg[OPMSG_SPLITTER_DEACTIVATE_STREAMS_WORD_SIZE];
+        OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_SPLITTER_DEACTIVATE_STREAMS, MESSAGE_ID, OPMSG_SPLITTER_ID_DEACTIVATE_STREAMS);
+84200536:	01 21       	rMAC = Null + 4;
+84200538:	29 de       	M[FP + 20] = rMAC;
+        OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_SPLITTER_DEACTIVATE_STREAMS, STREAMS, SPLITTER_STREAMS_BIT);
+8420053a:	41 20       	rMAC = Null + 1;
+8420053c:	31 de       	M[FP + 24] = rMAC;
+
+        opmgr_op_client_send_message(op_data, ext_data->splitter_op_id,
+                                     OPMSG_SPLITTER_DEACTIVATE_STREAMS_WORD_SIZE,
+                                     msg);
+8420053e:	45 11       	r3 = FP + 20;
+84200540:	84 20       	r2 = Null + 2;
+84200542:	f3 88       	r1 = M[r4 + 12];
+84200544:	3a 00       	r0 = r5 + Null;
+84200546:	61 4e       	call (m) $_opmgr_op_client_send_message;
+        break;
+84200548:	16 6e       	jump (m) Lc_configure_splitter_7;
+
+8420054a <Lc_configure_splitter_6>:
+        /* Get the current time and calculate the time offset to send to the
+         * splitter. The splitter will forward audio samples to QVA from
+         * roughly that time onwards.
+         * NOTE: This timing is approximate and is only used to provide QVA
+         * with a few more frames prior to the one on which VAD triggered. */
+        TIME start_time = time_get_time();
+8420054a:	ff fd 89 f1 	call (m) 0x317e8;
+8420054e:	3f e4 
+        start_time = time_sub(start_time, ext_data->buffer_time_offset_ms*1000);
+84200550:	f1 98       	rMAC = M[r4 + 44];
+84200552:	03 f0 e8 f1 	rMAC = rMAC * 1000 (int);
+84200556:	91 d9 
+84200558:	52 04       	r0 = r0 - rMAC;
+
+        OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_SPLITTER_ACTIVATE_STREAMS_AFTER_TIMESTAMP, MESSAGE_ID, OPMSG_SPLITTER_ID_ACTIVATE_STREAMS_AFTER_TIMESTAMP);
+8420055a:	c1 20       	rMAC = Null + 3;
+8420055c:	39 de       	M[FP + 28] = rMAC;
+        OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_SPLITTER_ACTIVATE_STREAMS_AFTER_TIMESTAMP, STREAMS, SPLITTER_STREAMS_BIT);
+8420055e:	41 20       	rMAC = Null + 1;
+84200560:	41 de       	M[FP + 32] = rMAC;
+        OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_SPLITTER_ACTIVATE_STREAMS_AFTER_TIMESTAMP, TIMESTAMP_MS, TIME_GET_MS(start_time));
+84200562:	93 52       	r1 = r0 LSHIFT -16;
+84200564:	4b de       	M[FP + 36] = r1;
+        OP_CLIENT_MSG_FIELD_SET(msg, OPMSG_SPLITTER_ACTIVATE_STREAMS_AFTER_TIMESTAMP, TIMESTAMP_LS, TIME_GET_LS(start_time));
+84200566:	91 c6       	rMAC = r0 AND 0xffff;
+84200568:	51 de       	M[FP + 40] = rMAC;
+
+        opmgr_op_client_send_message(op_data, ext_data->splitter_op_id,
+                                     OPMSG_SPLITTER_ACTIVATE_STREAMS_AFTER_TIMESTAMP_WORD_SIZE,
+                                     msg);
+8420056a:	c5 11       	r3 = FP + 28;
+8420056c:	04 21       	r2 = Null + 4;
+8420056e:	f3 88       	r1 = M[r4 + 12];
+84200570:	3a 00       	r0 = r5 + Null;
+84200572:	4b 4e       	call (m) $_opmgr_op_client_send_message;
+
+84200574 <Lc_configure_splitter_7>:
+        break;
+84200574:	f3 4a       	SP = SP - 0x20, popm <FP, r4, r5, r6, rLink>;
+84200576:	d8 4c       	rts;
+
+84200578 <$_base_op_get_sched_info_ex>:
+84200578:	f1 1c       	pushm <FP(=SP), r4, rLink>;
+{
+    return op_data->cap_data->id;
+}
+
+OP_SCHED_INFO_RSP* base_op_get_sched_info_ex(OPERATOR_DATA *op_data, void *message_data, unsigned *response_id)
+{
+8420057a:	16 00       	r4 = r0 + Null;
+    OP_SCHED_INFO_RSP* resp;
+
+    resp = xzpnew(OP_SCHED_INFO_RSP);
+8420057c:	c3 20       	r1 = Null + 3;
+8420057e:	02 29       	r0 = Null + 20;
+84200580:	ff fd 24 f0 	call (m) 0x4f2a;
+84200584:	2b ed 
+    if (resp == NULL)
+84200586:	10 04       	Null = r0 - Null;
+84200588:	03 62       	if NE jump (m) Lc_base_op_get_sched_info_ex_3;
+
+8420058a <Lc_base_op_get_sched_info_ex_2>:
+    {
+        return NULL;
+8420058a:	02 00       	r0 = Null + Null;
+8420058c:	04 6e       	jump (m) Lc_base_op_get_sched_info_ex_4;
+
+8420058e <Lc_base_op_get_sched_info_ex_3>:
+    }
+
+    resp->op_id = op_data->id;
+8420058e:	71 88       	rMAC = M[r4 + 4];
+84200590:	11 ee       	M[r0 + Null] = rMAC;
+    resp->status = STATUS_OK;
+84200592:	50 8e       	M[r0 + 4] = Null;
+
+84200594 <Lc_base_op_get_sched_info_ex_4>:
+
+    return resp;
+84200594:	f1 48       	popm <FP, r4, rLink>;
+84200596:	d8 4c       	rts;
+
+84200598 <$_base_op_build_std_response_ex>:
+    return op_data->state == OP_RUNNING;
+}
+
+/* will allocate and create a success message, with zeroed error_code field */
+bool base_op_build_std_response_ex(OPERATOR_DATA *op_data, STATUS_KYMERA status, void **response_data)
+{
+84200598:	f3 1c       	pushm <FP(=SP), r4, r5, r6, rLink>;
+8420059a:	16 00       	r4 = r0 + Null;
+8420059c:	1f 00       	r5 = r1 + Null;
+8420059e:	20 09       	r6 = r2 + Null;
+    OP_STD_RSP* resp = xzpnew(OP_STD_RSP);
+842005a0:	c3 20       	r1 = Null + 3;
+842005a2:	02 23       	r0 = Null + 12;
+842005a4:	ff fd 24 f0 	call (m) 0x4f2a;
+842005a8:	27 ec 
+
+    if (resp == NULL)
+842005aa:	10 04       	Null = r0 - Null;
+842005ac:	03 62       	if NE jump (m) Lc_base_op_build_std_response_ex_3;
+
+842005ae <Lc_base_op_build_std_response_ex_2>:
+    {
+        return FALSE;
+842005ae:	02 00       	r0 = Null + Null;
+842005b0:	08 6e       	jump (m) Lc_base_op_build_std_response_ex_4;
+
+842005b2 <Lc_base_op_build_std_response_ex_3>:
+    }
+
+    resp->op_id = op_data->id;
+842005b2:	71 88       	rMAC = M[r4 + 4];
+842005b4:	11 ee       	M[r0 + Null] = rMAC;
+    resp->resp_data.err_code = 0;
+842005b6:	90 8e       	M[r0 + 8] = Null;
+    resp->status = status;
+842005b8:	57 8e       	M[r0 + 4] = r5;
+
+    *response_data = resp;
+842005ba:	82 f0 00 ee 	M[r6 + Null] = r0;
+    return TRUE;
+842005be:	42 20       	r0 = Null + 1;
+
+842005c0 <Lc_base_op_build_std_response_ex_4>:
+}
+842005c0:	f3 48       	popm <FP, r4, r5, r6, rLink>;
+842005c2:	d8 4c       	rts;
+
+842005c4 <$_base_op_get_instance_data>:
+
+void* base_op_get_instance_data(OPERATOR_DATA *op_data)
+{
+    return op_data->extra_op_data;
+842005c4:	12 99       	r0 = M[r0 + 48];
+
+842005c6 <Lc_base_op_get_instance_data_2>:
+842005c6:	d8 4c       	rts;
+
+842005c8 <$kdc_start>:
+.MODULE $M.kdc_start;
+.CODESEGMENT PM;
+.DATASEGMENT DM;
+
+$kdc_start:
+r0 = $_va_graph_manager_cap_data;
+842005c8:	07 f0 02 f0 	r0 = Null + 7340032;
+842005cc:	00 40 
+    /* Force this symbol to be exported in ELF */
+    Null = $___kymera_debug_map_addr;
+842005ce:	20 f0 b0 41 	Null = Null + 16816;
+
+842005d2 <$_aov_request_default_clock>:
+.MODULE $M.aov_interface.aov_request_default_clock;
+.CODESEGMENT PM;
+.MINIM;
+
+$_aov_request_default_clock:
+    rMAC = M[$_patched_fw_version];
+842005d2:	01 f0 4b 98 	rMAC = M[Null + 0x92c];
+    Null = rMAC - PATCH_BUILD_ID;
+842005d6:	10 f1 77 35 	Null = rMAC - 6519;
+    if EQ jump  PATCH_ENTRY_AOV_REQUEST_DEFAULT_CLOCK; 
+842005da:	fc ff d0 f0 	if EQ jump (m) 0x4006ed6;
+842005de:	fd e1 
+
+842005e0 <$M.aov_interface.aov_request_default_clock.L_pb_mismatch>:
+
+L_pb_mismatch:
+    /* Stub: return false; */
+    r0 = 0;
+842005e0:	02 00       	r0 = Null + Null;
+    rts;
+842005e2:	d8 4c       	rts;
+
+842005e4 <$_aov_request_custom_clock>:
+.MODULE $M.aov_interface.aov_request_custom_clock;
+.CODESEGMENT PM;
+.MINIM;
+
+$_aov_request_custom_clock:
+    rMAC = M[$_patched_fw_version];
+842005e4:	01 f0 4b 98 	rMAC = M[Null + 0x92c];
+    Null = rMAC - PATCH_BUILD_ID;
+842005e8:	10 f1 77 35 	Null = rMAC - 6519;
+    if EQ jump  PATCH_ENTRY_AOV_REQUEST_CUSTOM_CLOCK; 
+842005ec:	fc ff d0 f0 	if EQ jump (m) 0x4006e84;
+842005f0:	99 e1 
+
+842005f2 <$M.aov_interface.aov_request_custom_clock.L_pb_mismatch>:
+
+L_pb_mismatch:
+    /* Stub: return false; */
+    r0 = 0;
+842005f2:	02 00       	r0 = Null + Null;
+    rts;
+842005f4:	d8 4c       	rts;
+
+842005f6 <$_aov_request_notify_trigger>:
+.MODULE $M.aov_interface.aov_request_notify_trigger;
+.CODESEGMENT PM;
+.MINIM;
+
+$_aov_request_notify_trigger:
+    rMAC = M[$_patched_fw_version];
+842005f6:	01 f0 4b 98 	rMAC = M[Null + 0x92c];
+    Null = rMAC - PATCH_BUILD_ID;
+842005fa:	10 f1 77 35 	Null = rMAC - 6519;
+    if EQ jump  PATCH_ENTRY_AOV_REQUEST_NOTIFY_TRIGGER; 
+842005fe:	fc ff d0 f0 	if EQ jump (m) 0x4006f0e;
+84200602:	91 e2 
+
+84200604 <$M.aov_interface.aov_request_notify_trigger.L_pb_mismatch>:
+
+L_pb_mismatch:
+    /* Stub: return false; */
+    r0 = 0;
+84200604:	02 00       	r0 = Null + Null;
+    rts;
+84200606:	d8 4c       	rts;
+
+84200608 <$_opmgr_op_client_send_message>:
+84200608:	01 f0 4b 98 	rMAC = M[Null + 0x92c];
+.CODESEGMENT PM;
+.MINIM;
+
+$_opmgr_op_client_send_message:
+    rMAC = M[$_patched_fw_version];
+    Null = rMAC - PATCH_BUILD_ID;
+8420060c:	10 f1 77 35 	Null = rMAC - 6519;
+    if EQ jump  PATCH_ENTRY_OPMGR_CLIENT_SEND_MESSAGE; 
+84200610:	fc ff a0 f0 	if EQ jump (m) 0x4005962;
+84200614:	d3 e6 
+
+84200616 <$M.opmgr_op_client_interface.opmgr_op_client_send_message.L_pb_mismatch>:
+
+L_pb_mismatch:
+    /* Stub: return false; */
+    r0 = 0;
+84200616:	02 00       	r0 = Null + Null;
+    rts;
+84200618:	d8 4c       	rts;
